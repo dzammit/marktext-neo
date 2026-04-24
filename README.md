@@ -8,7 +8,7 @@
   </a>
 </div>
 <div align="center">
-  <strong>:high_brightness: Next generation markdown editor :crescent_moon:</strong><br>
+  <strong>🔆 Next generation markdown editor 🌙</strong><br>
   A simple and elegant open-source markdown editor that focused on speed and usability.<br>
   <sub>Available for Linux, macOS and Windows.</sub>
 </div>
@@ -68,34 +68,34 @@
 <div align="center">
   <sub>Translations:</sub>
   <a href="docs/i18n/ar.md#readme">
-    <span>:saudi_arabia:</span>
+    <span>🇸🇦</span>
   </a>
   <a href="docs/i18n/zh_cn.md#readme">
-    <span>:cn:</span>
+    <span>🇨🇳</span>
   </a>
   <a href="docs/i18n/zh_tw.md#readme">
-    <span>:taiwan:</span>
+    <span>🇹🇼</span>
   </a>
   <a href="docs/i18n/pl.md#readme">
-    <span>:poland:</span>
+    <span>🇵🇱</span>
   </a>
   <a href="docs/i18n/ja.md#readme">
-    <span>:jp:</span>
+    <span>🇯🇵</span>
   </a>
   <a href="docs/i18n/french.md#readme">
-    <span>:fr:</span>
+    <span>🇫🇷</span>
   </a>
   <a href="docs/i18n/tr.md#readme">
-    <span>:tr:</span>
+    <span>🇹🇷</span>
   </a>
   <a href="docs/i18n/spanish.md#readme">
-    <span>:es:</span>
+    <span>🇪🇸</span>
   </a>
   <a href="docs/i18n/pt.md#readme">
-    <span>:portugal:</span>
+    <span>🇵🇹</span>
   </a>
   <a href="docs/i18n/ko.md#readme">
-    <span>:kr:</span>
+    <span>🇰🇷</span>
   </a>
 </div>
 
@@ -175,7 +175,7 @@ Names and company logos of all sponsors (from both Patreon and Open Collective) 
 - Various editing modes: **Source Code mode**, **Typewriter mode**, **Focus mode**.
 - Paste images directly from clipboard.
 
-<h4 align="center">:crescent_moon:themes:high_brightness:</h4>
+<h4 align="center">🌙 themes 🔆</h4>
 
 | Cadmium Light                                     | Dark                                            |
 |:-------------------------------------------------:|:-----------------------------------------------:|
@@ -185,7 +185,7 @@ Names and company logos of all sponsors (from both Patreon and Open Collective) 
 | Ulysses Light                                     | One Dark                                        |
 | ![](docs/themeImages/ulysses-light.png?raw=true)  | ![](docs/themeImages/one-dark.png?raw=true)     |
 
-<h4 align="center">:smile_cat:Edit modes:dog:</h4>
+<h4 align="center">😸 Edit modes 🐶</h4>
 
 | Source Code          | Typewriter               | Focus               |
 |:--------------------:|:------------------------:|:-------------------:|
