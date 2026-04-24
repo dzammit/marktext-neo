@@ -42,6 +42,11 @@
           :onChange="value => onSelectChange('hideScrollbar', value)"
         ></bool>
         <bool
+          description="Hide word count details popup"
+          :bool="hideWordCountPopup"
+          :onChange="value => onSelectChange('hideWordCountPopup', value)"
+        ></bool>
+        <bool
           description="Open files in new window"
           :bool="openFilesInNewWindow"
           :onChange="value => onSelectChange('openFilesInNewWindow', value)"
@@ -160,6 +165,7 @@ export default {
       openFolderInNewWindow: state => state.preferences.openFolderInNewWindow,
       zoom: state => state.preferences.zoom,
       hideScrollbar: state => state.preferences.hideScrollbar,
+      hideWordCountPopup: state => state.preferences.hideWordCountPopup,
       wordWrapInToc: state => state.preferences.wordWrapInToc,
       fileSortBy: state => state.preferences.fileSortBy,
       language: state => state.preferences.language

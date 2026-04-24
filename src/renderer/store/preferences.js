@@ -11,6 +11,7 @@ const state = {
   zoom: 1.0,
   hideScrollbar: false,
   wordWrapInToc: false,
+  hideWordCountPopup: true,
   fileSortBy: 'created',
   startUpAction: 'lastState',
   defaultDirectoryToOpen: '',

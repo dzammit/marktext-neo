@@ -45,6 +45,11 @@
     "type": "boolean",
     "default": false
   },
+  "hideWordCountPopup": {
+    "description": "General--Hide the word count details popup in the title bar.",
+    "type": "boolean",
+    "default": true
+  },
   "fileSortBy": {
     "description": "General--Sort files in opened folder by created time, modified time and title.",
     "enum": [
