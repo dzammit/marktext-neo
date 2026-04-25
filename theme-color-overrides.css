@@ -1,0 +1,362 @@
+/* Light (light): merge these values into src/renderer/assets/styles/index.css */
+:root {
+  --editorBgColor: rgba(255, 255, 255, 1);
+  --editorColor: rgba(0, 0, 0, .7);
+  --codeBlockBgColor: rgba(0, 0, 0, 0.03);
+  --quotedCellColor: rgba(0, 0, 0, .7);
+  --editorColor80: rgba(0, 0, 0, .8);
+}
+
+blockquote {
+  color: rgba(0, 0, 0, .5);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* Dark (dark): merge these values into src/renderer/assets/themes/dark.theme.css */
+:root {
+  --editorBgColor: #282828;
+  --editorColor: rgba(255, 255, 255, .7);
+  --codeBlockBgColor: #424344;
+  --quotedCellColor: rgba(255, 255, 255, .7);
+  --editorColor80: rgba(255, 255, 255, .8);
+}
+
+blockquote {
+  color: rgba(255, 255, 255, .5);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* Royal Blue (royal-blue): merge these values into src/renderer/assets/themes/royal-blue.theme.css */
+:root {
+  --editorBgColor: #0f1742;
+  --editorColor: #f1f5f9;
+  --codeBlockBgColor: #385b94;
+  --quotedCellColor: #f1f5f9;
+  --editorColor80: rgba(122, 189, 255, .8);
+}
+
+blockquote {
+  color: rgba(241, 245, 249, .68);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* Graphite (graphite): merge these values into src/renderer/assets/themes/graphite.theme.css */
+:root {
+  --editorBgColor: #f7f7f7;
+  --editorColor: rgba(43, 48, 50, .7);
+  --codeBlockBgColor: rgba(104, 134, 170, .05);
+  --quotedCellColor: rgba(43, 48, 50, .7);
+  --editorColor80: rgba(43, 48, 50, .8);
+}
+
+blockquote {
+  color: rgba(43, 48, 50, .5);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* Home (home): merge these values into src/renderer/assets/themes/home.theme.css */
+:root {
+  --editorBgColor: #1a1c2c;
+  --editorColor: #f0f2f5;
+  --codeBlockBgColor: rgba(18, 17, 17, .25);
+  --quotedCellColor: #f0f2f5;
+  --editorColor80: rgba(240, 242, 245, .8);
+}
+
+blockquote {
+  color: rgba(240, 242, 245, .68);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* Material Dark (material-dark): merge these values into src/renderer/assets/themes/material-dark.theme.css */
+:root {
+  --editorBgColor: #34393f;
+  --editorColor: rgba(171, 178, 191, .8);
+  --codeBlockBgColor: #3f454c;
+  --quotedCellColor: rgba(171, 178, 191, .8);
+  --editorColor80: rgba(171, 178, 191, 1);
+}
+
+blockquote {
+  color: rgba(171, 178, 191, .9);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* Micron (micron): merge these values into src/renderer/assets/themes/micron.theme.css */
+:root {
+  --editorBgColor: #dbd1c2;
+  --editorColor: #2c3e50;
+  --codeBlockBgColor: rgba(112, 82, 62, .82);
+  --quotedCellColor: #fbeabc;
+  --editorColor80: rgba(69, 52, 28, .8);
+}
+
+blockquote {
+  color: rgba(217, 217, 216, .72);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* Micron Dark (micron-dark): merge these values into src/renderer/assets/themes/micron-dark.theme.css */
+:root {
+  --editorBgColor: #181614;
+  --editorColor: #f4e8d5;
+  --codeBlockBgColor: rgba(95, 66, 48, .92);
+  --quotedCellColor: #fbeabc;
+  --editorColor80: rgba(251, 234, 188, .84);
+}
+
+blockquote {
+  color: rgba(251, 234, 188, .72);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* One Dark (one-dark): merge these values into src/renderer/assets/themes/one-dark.theme.css */
+:root {
+  --editorBgColor: #282c34;
+  --editorColor: #9da5b4;
+  --codeBlockBgColor: #3a3f4b;
+  --quotedCellColor: #9da5b4;
+  --editorColor80: #86a7e4;
+}
+
+blockquote {
+  color: rgba(148, 185, 255, .73);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* Ulysses (ulysses): merge these values into src/renderer/assets/themes/ulysses.theme.css */
+:root {
+  --editorBgColor: #f3f3f3;
+  --editorColor: rgba(101, 101, 101, .7);
+  --codeBlockBgColor: rgba(187, 82, 12, .13);
+  --quotedCellColor: rgba(0, 0, 0, .79);
+  --editorColor80: rgb(12, 139, 186);
+}
+
+blockquote {
+  color: rgba(101, 101, 101, .85);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}
+
+/* SiteBrief (sitebrief): merge these values into src/renderer/assets/themes/sitebrief.theme.css */
+:root {
+  --editorBgColor: #cfc7b9;
+  --editorColor: #1f3348;
+  --codeBlockBgColor: rgba(255, 255, 255, .72);
+  --quotedCellColor: #1f3348;
+  --editorColor80: rgba(31, 51, 72, .8);
+}
+
+blockquote {
+  color: rgba(31, 51, 72, .66);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}

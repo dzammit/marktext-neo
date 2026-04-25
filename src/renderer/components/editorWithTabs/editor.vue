@@ -105,6 +105,7 @@ import { moveImageToFolder, moveToRelativeFolder, uploadImage } from '@/util/fil
 import { guessClipboardFilePath } from '@/util/clipboard'
 import { getCssForOptions, getHtmlToc } from '@/util/pdf'
 import { addCommonStyle, setEditorWidth } from '@/util/theme'
+import ExportMarkdown from 'muya/lib/utils/exportMarkdown'
 
 import 'muya/themes/default.css'
 import '@/assets/themes/codemirror/one-dark.css'
@@ -650,8 +651,9 @@ export default {
           animatedScrollTo(container, container.scrollTop + (y - editableHeight), 0)
         }
 
+        const currentRow = this.getCurrentRow(changes)
         this.selectionChange = changes
-        this.$store.dispatch('SELECTION_CHANGE', changes)
+        this.$store.dispatch('SELECTION_CHANGE', Object.assign({}, changes, { currentRow }))
       })
 
       this.editor.on('selectionFormats', formats => {
@@ -666,6 +668,29 @@ export default {
   methods: {
     photoCreatorClick: (url) => {
       shell.openExternal(url)
+    },
+
+    getCurrentRow ({ start }) {
+      const { editor } = this
+      if (!editor || !editor.contentState || !start || !start.block) {
+        return null
+      }
+
+      const contentState = editor.contentState
+      const parents = contentState.getParents(start.block)
+      const topBlock = parents[parents.length - 1]
+      const blocks = contentState.getBlocks()
+      const index = blocks.findIndex(block => block.key === topBlock.key)
+      if (index <= 0) return 1
+
+      const { listIndentation, isGitlabCompatibilityEnabled } = contentState
+      const markdownBefore = new ExportMarkdown(
+        blocks.slice(0, index),
+        listIndentation,
+        isGitlabCompatibilityEnabled
+      ).generate()
+
+      return markdownBefore ? markdownBefore.split('\n').length + 1 : 1
     },
 
     jumpClick (linkInfo) {

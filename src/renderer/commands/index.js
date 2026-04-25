@@ -536,13 +536,29 @@ const commands = [
       description: 'Dark',
       value: 'dark'
     }, {
+      id: 'window.change-theme-royal-blue',
+      description: 'Royal Blue',
+      value: 'royal-blue'
+    }, {
       id: 'window.change-theme-graphite',
       description: 'Graphite',
       value: 'graphite'
     }, {
+      id: 'window.change-theme-home',
+      description: 'Home',
+      value: 'home'
+    }, {
       id: 'window.change-theme-material-dark',
       description: 'Material Dark',
       value: 'material-dark'
+    }, {
+      id: 'window.change-theme-micron',
+      description: 'Micron',
+      value: 'micron'
+    }, {
+      id: 'window.change-theme-micron-dark',
+      description: 'Micron Dark',
+      value: 'micron-dark'
     }, {
       id: 'window.change-theme-one-dark',
       description: 'One Dark',
@@ -551,6 +567,10 @@ const commands = [
       id: 'window.change-theme-ulysses',
       description: 'Ulysses',
       value: 'ulysses'
+    }, {
+      id: 'window.change-theme-sitebrief',
+      description: 'SiteBrief',
+      value: 'sitebrief'
     }],
     executeSubcommand: async (_, theme) => {
       ipcRenderer.send('mt::set-user-preference', { theme })

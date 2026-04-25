@@ -112,14 +112,24 @@ class BaseWindow extends EventEmitter {
     switch (theme) {
       case 'dark':
         return '#282828'
+      case 'royal-blue':
+        return '#0f172a'
+      case 'home':
+        return '#1a1c2c'
       case 'material-dark':
         return '#34393f'
+      case 'micron':
+        return '#f5f7fa'
+      case 'micron-dark':
+        return '#181614'
       case 'ulysses':
         return '#f3f3f3'
       case 'graphite':
         return '#f7f7f7'
       case 'one-dark':
         return '#282c34'
+      case 'sitebrief':
+        return '#f7f2ea'
       case 'light':
       default:
         return '#ffffff'

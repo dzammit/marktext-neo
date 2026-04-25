@@ -152,7 +152,13 @@ class App {
       }
     }
 
-    // Set initial native theme for theme in preferences.
+    const setNativeThemeSource = source => {
+      nativeTheme.themeSource = source === 'dark' ? 'dark' : 'light'
+      isDarkMode = nativeTheme.themeSource === 'dark'
+    }
+
+    // Set initial native theme before renderer CSS has loaded. The renderer
+    // sends the effective light/dark value after theme overrides are applied.
     const isDarkTheme = /dark/i.test(theme)
     if (autoSwitchTheme === 0 && isDarkTheme !== nativeTheme.shouldUseDarkColors) {
       selectTheme(nativeTheme.shouldUseDarkColors ? 'dark' : 'light')
@@ -162,6 +168,10 @@ class App {
     }
 
     let isDarkMode = nativeTheme.shouldUseDarkColors
+    ipcMain.on('mt::set-native-theme-source', (event, source) => {
+      setNativeThemeSource(source)
+    })
+
     ipcMain.on('broadcast-preferences-changed', change => {
       // Set Chromium's color for native elements after theme change.
       if (change.theme) {

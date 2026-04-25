@@ -8,7 +8,7 @@ Preferences can be controlled and modified in the settings window or via the `pr
 | ---------------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | autoSave               | Boolean | false         | Automatically save the content being edited. option value: true, false                                                                                     |
 | autoSaveDelay          | Number  | 5000          | The delay in milliseconds after a changed file is saved automatically? 1000 ~10000                                                                         |
-| titleBarStyle          | String  | custom        | The title bar style on Linux and Window: `custom` or `native`                                                                                              |
+| titleBarStyle          | String  | custom        | The title bar style on Linux and Windows. MarkText uses the custom title bar so menus can follow theme colors.                                             |
 | openFilesInNewWindow   | Boolean | false         | true, false                                                                                                                                                |
 | openFolderInNewWindow  | Boolean | false         | true, false                                                                                                                                                |
 | zoom                   | Number  | 1.0           | The zoom level. Between 0.5 and 2.0 inclusive.                                                                                              |
@@ -62,7 +62,7 @@ Preferences can be controlled and modified in the settings window or via the `pr
 
 | Key   | Type   | Default | Description                                                           |
 | ----- | ------ | ------- | --------------------------------------------------------------------- |
-| theme | String | light   | `dark`, `graphite`, `material-dark`, `one-dark`, `light` or `ulysses` |
+| theme | String | light   | `dark`, `royal-blue`, `graphite`, `home`, `material-dark`, `micron`, `micron-dark`, `one-dark`, `light`, `sitebrief` or `ulysses` |
 
 #### Editable via file
 

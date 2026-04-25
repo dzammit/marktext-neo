@@ -60,7 +60,7 @@ export default {
     this.$nextTick(async () => {
       const newThemes = []
       for (const theme of themes) {
-        const html = await markdownToHtml(themeMd.replace(/{theme}/, theme.name))
+        const html = await markdownToHtml(themeMd.replace(/{theme}/, theme.label))
         newThemes.push({
           name: theme.name,
           html
@@ -116,6 +116,20 @@ export default {
           color: rgb(104, 134, 170);
         }
       }
+      &.royal-blue {
+        color: #f1f5f9;
+        background: #0f172a;
+        & a {
+          color: #38bdf8;
+        }
+      }
+      &.home {
+        color: #f0f2f5;
+        background: #1a1c2c;
+        & a {
+          color: #3498db;
+        }
+      }
       &.material-dark {
         color: rgba(171, 178, 191, .8);
         background: #34393f;
@@ -123,11 +137,32 @@ export default {
           color: #f48237;
         }
       }
+      &.micron {
+        color: #2c3e50;
+        background: #dbd1c2;
+        & a {
+          color: #007bff;
+        }
+      }
+      &.micron-dark {
+        color: #f4e8d5;
+        background: #181614;
+        & a {
+          color: #4aa3ff;
+        }
+      }
       &.one-dark {
         color: #9da5b4;
         background: #282c34;
         & a {
           color: rgba(226, 192, 141, 1);
+        }
+      }
+      &.sitebrief {
+        color: #1f3348;
+        background: #f7f2ea;
+        & a {
+          color: #ef8354;
         }
       }
       &.ulysses {

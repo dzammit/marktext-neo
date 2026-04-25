@@ -15,7 +15,7 @@
   --highlightColor: #ffffff10;
   --selectionColor: #67769660;
   --editorColor: #9da5b4;
-  --editorColor80: #9da5b4;
+  --editorColor80: #86a7e4;
   --editorColor60: rgba(157, 165, 180, .6);
   --editorColor50: rgba(157, 165, 180, .5);
   --editorColor40: rgba(157, 165, 180, .4);
@@ -203,6 +203,10 @@
 
 blockquote::before {
   background: var(--highlightThemeColor);
+}
+
+blockquote {
+  color: rgba(148, 185, 255, .73);
 }
 
 :not(pre) > code[class*="language-"],

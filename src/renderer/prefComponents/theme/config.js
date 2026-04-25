@@ -1,21 +1,47 @@
 export const themes = [
   {
-    name: 'light'
+    name: 'light',
+    label: 'light'
   },
   {
-    name: 'dark'
+    name: 'dark',
+    label: 'dark'
   },
   {
-    name: 'graphite'
+    name: 'royal-blue',
+    label: 'Royal Blue'
   },
   {
-    name: 'material-dark'
+    name: 'graphite',
+    label: 'graphite'
   },
   {
-    name: 'ulysses'
+    name: 'home',
+    label: 'Home'
   },
   {
-    name: 'one-dark'
+    name: 'material-dark',
+    label: 'material-dark'
+  },
+  {
+    name: 'micron',
+    label: 'Micron'
+  },
+  {
+    name: 'micron-dark',
+    label: 'Micron Dark'
+  },
+  {
+    name: 'ulysses',
+    label: 'ulysses'
+  },
+  {
+    name: 'one-dark',
+    label: 'one-dark'
+  },
+  {
+    name: 'sitebrief',
+    label: 'sitebrief'
   }
 ]
 

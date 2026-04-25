@@ -242,6 +242,11 @@ const mutations = {
       state.currentFile.cursor = cursor
     }
   },
+  SET_CURRENT_ROW (state, currentRow) {
+    if (hasKeys(state.currentFile)) {
+      state.currentFile.currentRow = currentRow
+    }
+  },
   SET_HISTORY (state, history) {
     if (hasKeys(state.currentFile)) {
       state.currentFile.history = history
@@ -896,7 +901,7 @@ const actions = {
 
   // Content change from realtime preview editor and source code editor
   // WORKAROUND: id is "muya" if changes come from muya and not source code editor! So we don't have to apply the workaround.
-  LISTEN_FOR_CONTENT_CHANGE ({ commit, dispatch, state, rootState }, { id, markdown, wordCount, cursor, history, toc }) {
+  LISTEN_FOR_CONTENT_CHANGE ({ commit, dispatch, state, rootState }, { id, markdown, wordCount, cursor, currentRow, history, toc }) {
     const { autoSave } = rootState.preferences
     const {
       id: currentId,
@@ -921,6 +926,9 @@ const actions = {
           // Set cursor
           if (cursor) {
             tab.cursor = cursor
+          }
+          if (currentRow !== undefined) {
+            tab.currentRow = currentRow
           }
           // Set history
           if (history) {
@@ -947,6 +955,9 @@ const actions = {
     // Set cursor
     if (cursor) {
       commit('SET_CURSOR', cursor)
+    }
+    if (currentRow !== undefined) {
+      commit('SET_CURRENT_ROW', currentRow)
     }
     // Set history
     if (history) {
@@ -1014,7 +1025,10 @@ const actions = {
   },
 
   SELECTION_CHANGE ({ commit }, changes) {
-    const { start, end } = changes
+    const { start, end, currentRow } = changes
+    if (currentRow !== undefined) {
+      commit('SET_CURRENT_ROW', currentRow)
+    }
     // Set search keyword to store.
     if (start.key === end.key && start.block.text) {
       const value = start.block.text.substring(start.offset, end.offset)

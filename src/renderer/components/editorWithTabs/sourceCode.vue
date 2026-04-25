@@ -187,12 +187,14 @@ export default {
         const { cursor, markdown } = this.getMarkdownAndCursor(cm)
         // Attention: the cursor may be `{focus: null, anchor: null}` when press `backspace`
         const wordCount = getWordCount(markdown)
+        const currentRow = cursor && cursor.focus ? cursor.focus.line + 1 : null
+        this.$store.commit('SET_CURRENT_ROW', currentRow)
         if (this.commitTimer) clearTimeout(this.commitTimer)
         this.commitTimer = setTimeout(() => {
           // See "beforeDestroy" note
           if (!this.viewDestroyed) {
             if (this.tabId) {
-              this.$store.dispatch('LISTEN_FOR_CONTENT_CHANGE', { id: this.tabId, markdown, wordCount, cursor })
+              this.$store.dispatch('LISTEN_FOR_CONTENT_CHANGE', { id: this.tabId, markdown, wordCount, cursor, currentRow })
             } else {
               // This may occur during tab switching but should not occur otherwise.
               console.warn('LISTEN_FOR_CONTENT_CHANGE: Cannot commit changes because not tab id was set!')
@@ -281,7 +283,7 @@ export default {
 
 <style>
   .source-code {
-    height: calc(100vh - var(--titleBarHeight));
+    height: 100%;
     box-sizing: border-box;
     overflow: auto;
   }

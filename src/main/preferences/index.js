@@ -9,6 +9,33 @@ import { hasSameKeys } from '../utils'
 import schema from './schema'
 
 const PREFERENCES_FILE_NAME = 'preferences'
+const THEME_ALIASES = Object.freeze({
+  'git-training': 'royal-blue',
+  'home-ai': 'home',
+  'micron-cctv': 'micron'
+})
+
+const normalizeTheme = theme => THEME_ALIASES[theme] || theme
+
+const normalizeSettings = settings => {
+  if (!settings) return false
+
+  let changed = false
+  if (settings.theme) {
+    const theme = normalizeTheme(settings.theme)
+    if (theme !== settings.theme) {
+      settings.theme = theme
+      changed = true
+    }
+  }
+
+  if (settings.titleBarStyle === 'native') {
+    settings.titleBarStyle = 'custom'
+    changed = true
+  }
+
+  return changed
+}
 
 class Preference extends EventEmitter {
   /**
@@ -52,11 +79,13 @@ class Preference extends EventEmitter {
 
     // I don't know why `this.store.size` is 3 when first load, so I just check file existed.
     if (!this.hasPreferencesFile) {
+      normalizeSettings(defaultSettings)
       this.store.set(defaultSettings)
     } else {
       // Because `this.getAll()` will return a plainObject, so we can not use `hasOwnProperty` method
       // const plainObject = () => Object.create(null)
       const userSetting = this.getAll()
+      let normalizedUserSettings = normalizeSettings(userSetting)
       // Update outdated settings
       const requiresUpdate = !hasSameKeys(defaultSettings, userSetting)
       const userSettingKeys = Object.keys(userSetting)
@@ -83,9 +112,11 @@ class Preference extends EventEmitter {
             userSetting[key] = defaultSettings[key]
           }
         }
-        if (addedNewEntries) {
-          this.store.set(userSetting)
-        }
+        normalizedUserSettings = normalizedUserSettings || addedNewEntries
+      }
+
+      if (normalizedUserSettings) {
+        this.store.set(userSetting)
       }
     }
 
@@ -97,6 +128,11 @@ class Preference extends EventEmitter {
   }
 
   setItem (key, value) {
+    if (key === 'theme') {
+      value = normalizeTheme(value)
+    } else if (key === 'titleBarStyle' && value === 'native') {
+      value = 'custom'
+    }
     ipcMain.emit('broadcast-preferences-changed', { [key]: value })
     return this.store.set(key, value)
   }

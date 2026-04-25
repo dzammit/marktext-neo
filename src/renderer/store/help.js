@@ -24,6 +24,7 @@ export const defaultFileState = {
     index: -1
   },
   cursor: null,
+  currentRow: null,
   wordCount: {
     paragraph: 0,
     word: 0,

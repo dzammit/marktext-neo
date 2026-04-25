@@ -1,9 +1,6 @@
 export const titleBarStyleOptions = [{
   label: 'Custom',
   value: 'custom'
-}, {
-  label: 'Native',
-  value: 'native'
 }]
 
 export const zoomOptions = [{

@@ -1,0 +1,102 @@
+:root {
+  --themeColor: #007bff;
+  --themeColor90: rgba(0, 123, 255, .9);
+  --themeColor80: rgba(0, 123, 255, .8);
+  --themeColor70: rgba(0, 123, 255, .7);
+  --themeColor60: rgba(0, 123, 255, .6);
+  --themeColor50: rgba(0, 123, 255, .5);
+  --themeColor40: rgba(0, 123, 255, .4);
+  --themeColor30: rgba(0, 123, 255, .3);
+  --themeColor20: rgba(0, 123, 255, .2);
+  --themeColor10: rgba(0, 123, 255, .1);
+  --highlightThemeColor: var(--themeColor);
+  --highlightColor: rgba(0, 123, 255, .28);
+  --selectionColor: rgba(0, 123, 255, .16);
+  --editorColor: #2c3e50;
+  --editorColor80: rgba(69, 52, 28, .8);
+  --editorColor60: rgba(44, 62, 80, .6);
+  --editorColor50: rgba(44, 62, 80, .5);
+  --editorColor40: rgba(44, 62, 80, .4);
+  --editorColor30: rgba(44, 62, 80, .3);
+  --editorColor10: rgba(44, 62, 80, .1);
+  --editorColor04: rgba(0, 123, 255, .12);
+  --editorBgColor: #dbd1c2;
+  --deleteColor: #e74c3c;
+  --iconColor: rgba(44, 62, 80, .65);
+  --codeBgColor: rgba(0, 123, 255, .08);
+  --codeBlockBgColor: rgba(112, 82, 62, .82);
+  --quotedCellColor: #fbeabc;
+  --footnoteBgColor: rgba(0, 123, 255, .06);
+  --inputBgColor: rgba(255, 255, 255, .76);
+  --focusColor: var(--themeColor);
+  --buttonFontColor: #2c3e50;
+  --buttonBgColor: rgba(255, 255, 255, .82);
+  --buttonBorder: 1px solid rgba(255, 255, 255, .5);
+  --buttonShadow: 0 8px 32px rgba(31, 38, 135, .08);
+  --buttonFontColorHover: #0056b3;
+  --buttonBgColorHover: rgba(255, 255, 255, .95);
+  --buttonBorderHover: 1px solid rgba(0, 123, 255, .28);
+  --buttonFontColorActive: var(--buttonFontColorHover);
+  --buttonBgColorActive: rgba(0, 123, 255, .08);
+  --buttonBorderActive: var(--buttonBorderHover);
+  --buttonFocusBorder: 1px solid var(--themeColor);
+  --buttonPrimaryFontColor: #ffffff;
+  --buttonPrimaryBgColor: var(--themeColor);
+  --buttonPrimaryBorder: none;
+  --buttonPrimaryShadow: 0 8px 32px rgba(31, 38, 135, .15);
+  --buttonPrimaryFontColorHover: var(--buttonPrimaryFontColor);
+  --buttonPrimaryBgColorHover: #3395ff;
+  --buttonPrimaryBorderHover: var(--buttonPrimaryBorder);
+  --buttonPrimaryFontColorActive: var(--buttonPrimaryFontColor);
+  --buttonPrimaryBgColorActive: #0056b3;
+  --buttonPrimaryBorderActive: var(--buttonPrimaryBorder);
+  --buttonPrimaryFocusBorder: none;
+  --buttonPrimaryFocusShadow: 0 0 0 1px var(--themeColor), 0 0 18px rgba(0, 123, 255, .22);
+  --tableBorderColor: rgba(0, 86, 179, .2);
+  --sideBarColor: rgba(44, 62, 80, .7);
+  --sideBarIconColor: var(--iconColor);
+  --sideBarTitleColor: #0056b3;
+  --sideBarTextColor: rgba(44, 62, 80, .5);
+  --sideBarBgColor: rgba(255, 255, 255, .7);
+  --sideBarItemHoverBgColor: rgba(0, 123, 255, .06);
+  --itemBgColor: rgba(255, 255, 255, .7);
+  --floatFontColor: #2c3e50;
+  --floatBgColor: rgba(255, 255, 255, .88);
+  --floatHoverColor: rgba(0, 123, 255, .06);
+  --floatBorderColor: rgba(255, 255, 255, .5);
+  --floatShadow: 0 8px 32px rgba(31, 38, 135, .15);
+  --maskColor: rgba(195, 207, 226, .72);
+  --editorAreaWidth: 850px;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+table .ag-cell-selected::before {
+  background: rgba(0, 123, 255, .16);
+}
+
+blockquote {
+  color: rgba(217, 217, 216, .72);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+span code,
+span code *,
+td code,
+td code *,
+th code,
+th code *,
+:not(pre) > code[class*="language-"],
+pre:not(.CodeMirror-line),
+pre[class*="language-"],
+pre.ag-paragraph,
+pre.ag-paragraph * {
+  color: var(--quotedCellColor) !important;
+}

@@ -6,12 +6,8 @@
     <div class="editor-middle">
       <title-bar
         :project="projectTree"
-        :pathname="pathname"
         :filename="filename"
         :active="windowActive"
-        :word-count="wordCount"
-        :platform="platform"
-        :is-saved="isSaved"
       ></title-bar>
       <div class="editor-placeholder" v-if="!init"></div>
       <recent
@@ -85,12 +81,9 @@ export default {
     }),
     ...mapState({
       projectTree: state => state.project.projectTree,
-      pathname: state => state.editor.currentFile.pathname,
       filename: state => state.editor.currentFile.filename,
-      isSaved: state => state.editor.currentFile.isSaved,
       markdown: state => state.editor.currentFile.markdown,
-      cursor: state => state.editor.currentFile.cursor,
-      wordCount: state => state.editor.currentFile.wordCount
+      cursor: state => state.editor.currentFile.cursor
     }),
     ...mapState([
       'windowActive', 'platform', 'init'
@@ -116,6 +109,7 @@ export default {
     if (global.marktext.initialState) {
       commit('SET_USER_PREFERENCE', global.marktext.initialState)
     }
+    addStyles(global.marktext.initialState || DEFAULT_STYLE)
 
     // store/index.js
     dispatch('LINTEN_WIN_STATUS')
@@ -192,8 +186,6 @@ export default {
     }, false)
 
     this.$nextTick(() => {
-      const style = global.marktext.initialState || DEFAULT_STYLE
-      addStyles(style)
       this.hideLoadingPage()
     })
   }

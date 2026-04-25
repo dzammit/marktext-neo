@@ -18,6 +18,7 @@
           :text-direction="textDirection"
         ></source-code>
       </div>
+      <status-bar></status-bar>
       <tab-notifications></tab-notifications>
     </div>
 </template>
@@ -27,6 +28,7 @@ import { mapState } from 'vuex'
 import Tabs from './tabs.vue'
 import Editor from './editor.vue'
 import SourceCode from './sourceCode.vue'
+import StatusBar from './statusBar.vue'
 import TabNotifications from './notifications.vue'
 
 export default {
@@ -62,6 +64,7 @@ export default {
     Tabs,
     Editor,
     SourceCode,
+    StatusBar,
     TabNotifications
   },
   computed: {

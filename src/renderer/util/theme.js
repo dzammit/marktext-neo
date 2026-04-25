@@ -1,11 +1,102 @@
+import fs from 'fs'
+import path from 'path'
+import { ipcRenderer } from 'electron'
 import { THEME_STYLE_ID, COMMON_STYLE_ID, DEFAULT_CODE_FONT_FAMILY, oneDarkThemes, railscastsThemes } from '../config'
-import { dark, graphite, materialDark, oneDark, ulysses } from './themeColor'
+import { dark, royalBlue, graphite, home, materialDark, micron, micronDark, oneDark, sitebrief, ulysses } from './themeColor'
 import { isLinux } from './index'
 import elementStyle from 'element-ui/lib/theme-chalk/index.css'
 
 const ORIGINAL_THEME = '#409EFF'
 const patchTheme = css => {
   return `@media not print {\n${css}\n}`
+}
+
+const THEME_OVERRIDES_STYLE_ID = 'ag-theme-overrides'
+const THEME_OVERRIDES_FILE_NAME = 'theme-color-overrides.css'
+const THEME_ALIASES = Object.freeze({
+  'git-training': 'royal-blue',
+  'home-ai': 'home',
+  'micron-cctv': 'micron'
+})
+
+const normalizeTheme = theme => THEME_ALIASES[theme] || theme
+
+const normalizeThemeOverrides = css => {
+  return css
+    .replace(/data-marktext-theme="git-training"/g, 'data-marktext-theme="royal-blue"')
+    .replace(/data-marktext-theme="home-ai"/g, 'data-marktext-theme="home"')
+    .replace(/data-marktext-theme="micron-cctv"/g, 'data-marktext-theme="micron"')
+}
+
+const getThemeOverrides = () => {
+  const userDataPath = global.marktext && global.marktext.paths && global.marktext.paths.userDataPath
+  if (!userDataPath) return ''
+
+  const overridesPath = path.join(userDataPath, THEME_OVERRIDES_FILE_NAME)
+  if (!fs.existsSync(overridesPath)) return ''
+
+  try {
+    return normalizeThemeOverrides(fs.readFileSync(overridesPath, 'utf8'))
+  } catch (err) {
+    console.warn(`Unable to read theme overrides from "${overridesPath}".`, err)
+    return ''
+  }
+}
+
+const applyThemeOverrides = () => {
+  let styleEle = document.querySelector(`#${THEME_OVERRIDES_STYLE_ID}`)
+  if (!styleEle) {
+    styleEle = document.createElement('style')
+    styleEle.id = THEME_OVERRIDES_STYLE_ID
+    document.head.appendChild(styleEle)
+  }
+  styleEle.innerHTML = patchTheme(getThemeOverrides())
+}
+
+let currentTheme = 'light'
+let isListeningForThemeOverrideUpdates = false
+
+const parseCssColor = value => {
+  const color = value.trim()
+  const hex = color.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)
+  if (hex) {
+    const body = hex[1].length === 3
+      ? hex[1].split('').map(char => char + char).join('')
+      : hex[1]
+    return {
+      red: parseInt(body.slice(0, 2), 16),
+      green: parseInt(body.slice(2, 4), 16),
+      blue: parseInt(body.slice(4, 6), 16),
+      alpha: 1
+    }
+  }
+
+  const rgba = color.match(/^rgba?\(\s*([.\d]+)\s*,\s*([.\d]+)\s*,\s*([.\d]+)(?:\s*,\s*([.\d]+))?\s*\)$/i)
+  if (!rgba) return null
+
+  return {
+    red: Number(rgba[1]),
+    green: Number(rgba[2]),
+    blue: Number(rgba[3]),
+    alpha: rgba[4] === undefined ? 1 : Number(rgba[4])
+  }
+}
+
+const isDarkColor = value => {
+  const color = parseCssColor(value)
+  if (!color) return false
+
+  const red = color.red * color.alpha + 255 * (1 - color.alpha)
+  const green = color.green * color.alpha + 255 * (1 - color.alpha)
+  const blue = color.blue * color.alpha + 255 * (1 - color.alpha)
+  const luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255
+  return luminance < 0.5
+}
+
+const syncNativeThemeSource = () => {
+  const style = window.getComputedStyle(document.documentElement)
+  const background = style.getPropertyValue('--editorBgColor')
+  ipcRenderer.send('mt::set-native-theme-source', isDarkColor(background) ? 'dark' : 'light')
 }
 
 const getEmojiPickerPatch = () => {
@@ -47,6 +138,10 @@ const getThemeCluster = themeColor => {
 }
 
 export const addThemeStyle = theme => {
+  theme = normalizeTheme(theme)
+  currentTheme = theme
+  document.documentElement.setAttribute('data-marktext-theme', theme)
+
   const isCmRailscasts = railscastsThemes.includes(theme)
   const isCmOneDark = oneDarkThemes.includes(theme)
   const isDarkTheme = isCmOneDark || isCmRailscasts
@@ -64,8 +159,20 @@ export const addThemeStyle = theme => {
     case 'dark':
       themeStyleEle.innerHTML = patchTheme(dark())
       break
+    case 'royal-blue':
+      themeStyleEle.innerHTML = patchTheme(royalBlue())
+      break
+    case 'home':
+      themeStyleEle.innerHTML = patchTheme(home())
+      break
     case 'material-dark':
       themeStyleEle.innerHTML = patchTheme(materialDark())
+      break
+    case 'micron':
+      themeStyleEle.innerHTML = patchTheme(micron())
+      break
+    case 'micron-dark':
+      themeStyleEle.innerHTML = patchTheme(micronDark())
       break
     case 'ulysses':
       themeStyleEle.innerHTML = patchTheme(ulysses())
@@ -75,6 +182,9 @@ export const addThemeStyle = theme => {
       break
     case 'one-dark':
       themeStyleEle.innerHTML = patchTheme(oneDark())
+      break
+    case 'sitebrief':
+      themeStyleEle.innerHTML = patchTheme(sitebrief())
       break
     default:
       console.log('unknown theme')
@@ -100,6 +210,16 @@ export const addThemeStyle = theme => {
     } else {
       cm.classList.add('cm-s-default')
     }
+  }
+
+  applyThemeOverrides()
+  syncNativeThemeSource()
+
+  if (!isListeningForThemeOverrideUpdates) {
+    ipcRenderer.on('mt::theme-overrides-updated', () => {
+      addThemeStyle(currentTheme)
+    })
+    isListeningForThemeOverrideUpdates = true
   }
 }
 

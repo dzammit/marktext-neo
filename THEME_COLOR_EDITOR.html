@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Theme Color Editor</title>
+  <style>
+    :root {
+      --page-bg: #f4f6f8;
+      --panel-bg: #ffffff;
+      --text: #17202a;
+      --muted: #5f6b7a;
+      --border: #d8dee6;
+      --accent: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--page-bg);
+      color: var(--text);
+      font: 14px/1.45 "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    header,
+    main {
+      width: min(1240px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 28px 0 16px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--page-bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .window-actions {
+      display: flex;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 350px;
+      gap: 18px;
+      padding-bottom: 32px;
+    }
+
+    .theme-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .theme-panel,
+    .editor-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, .06);
+    }
+
+    .theme-panel {
+      overflow: hidden;
+    }
+
+    .theme-title {
+      display: grid;
+      grid-template-columns: minmax(170px, 260px) minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+
+    .theme-title input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 7px 9px;
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .theme-title code {
+      color: var(--muted);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .swatch {
+      min-height: 104px;
+      border: 1px solid rgba(0, 0, 0, .16);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      text-align: left;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18);
+    }
+
+    .swatch:focus {
+      outline: 3px solid rgba(37, 99, 235, .3);
+      outline-offset: 2px;
+    }
+
+    .swatch.active {
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .34), inset 0 0 0 1px rgba(255, 255, 255, .2);
+    }
+
+    .swatch-label {
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .swatch-var,
+    .swatch-value {
+      font-family: Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .swatch-var {
+      opacity: .78;
+    }
+
+    .example {
+      margin: 0 16px 16px;
+      border: 1px solid rgba(0, 0, 0, .12);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .example h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .example p {
+      margin: 0 0 10px;
+      color: inherit;
+    }
+
+    .example blockquote {
+      margin: 0 0 10px;
+      padding-left: 12px;
+      border-left: 3px solid currentColor;
+    }
+
+    .example code {
+      border-radius: 4px;
+      padding: 2px 5px;
+      font-family: Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+    }
+
+    .editor-panel {
+      position: sticky;
+      top: 16px;
+      align-self: start;
+      padding: 16px;
+    }
+
+    .editor-panel h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .selected-name {
+      margin-bottom: 14px;
+      color: var(--muted);
+      min-height: 40px;
+    }
+
+    .control {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    label {
+      font-weight: 650;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font: 13px Consolas, "Liberation Mono", monospace;
+      color: var(--text);
+      background: #fff;
+    }
+
+    input[type="color"] {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px;
+      background: #fff;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .range-row {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) 42px;
+      gap: 8px;
+      align-items: center;
+      font-family: Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    button {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 9px 12px;
+      background: #fff;
+      color: var(--text);
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .48;
+    }
+
+    button.primary {
+      border-color: #1d4ed8;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .status {
+      min-height: 20px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    textarea {
+      min-height: 220px;
+      resize: vertical;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 980px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .editor-panel {
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px) {
+      header,
+      main {
+        width: min(100vw - 20px, 1240px);
+      }
+
+      .swatch-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .theme-title {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <div>
+        <h1>Theme Color Editor</h1>
+        <p>Click a color box, adjust it with the picker or sliders, rename themes for export labels, copy formats between cells, and save runtime CSS overrides.</p>
+      </div>
+      <div class="window-actions">
+        <button class="primary" id="saveAndCloseButton" type="button">Save</button>
+        <button id="cancelButton" type="button">Cancel</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="theme-grid" id="themeGrid" aria-label="Theme color swatches"></section>
+
+    <aside class="editor-panel" aria-label="Selected color editor">
+      <h2>Selected Color</h2>
+      <div class="selected-name" id="selectedName">Select a box to edit a color.</div>
+
+      <div class="control">
+        <label for="colorPicker">Color picker</label>
+        <input id="colorPicker" type="color" value="#000000">
+      </div>
+
+      <div class="control">
+        <label for="colorValue">CSS value</label>
+        <input id="colorValue" type="text" value="">
+      </div>
+
+      <div class="control">
+        <label>Channels</label>
+        <div class="range-row">
+          <span>R</span>
+          <input id="redRange" type="range" min="0" max="255" value="0">
+          <span id="redText">0</span>
+        </div>
+        <div class="range-row">
+          <span>G</span>
+          <input id="greenRange" type="range" min="0" max="255" value="0">
+          <span id="greenText">0</span>
+        </div>
+        <div class="range-row">
+          <span>B</span>
+          <input id="blueRange" type="range" min="0" max="255" value="0">
+          <span id="blueText">0</span>
+        </div>
+        <div class="range-row">
+          <span>A</span>
+          <input id="alphaRange" type="range" min="0" max="100" value="100">
+          <span id="alphaText">1</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="formatButton" type="button">Format</button>
+        <button id="cancelFormatButton" type="button" disabled>Cancel Format</button>
+        <button id="undoButton" type="button">Undo</button>
+        <button id="redoButton" type="button">Redo</button>
+        <button class="primary full" id="saveCssButton" type="button">Save CSS Overrides</button>
+        <button class="full" id="copyCssButton" type="button">Copy CSS Overrides</button>
+      </div>
+      <div class="status" id="statusText"></div>
+
+      <textarea id="cssOutput" spellcheck="false" aria-label="Generated CSS overrides"></textarea>
+    </aside>
+  </main>
+
+  <script>
+    const initialThemes = [
+      theme('Light', 'light', 'src/renderer/assets/styles/index.css', 'rgba(255, 255, 255, 1)', 'rgba(0, 0, 0, .7)', 'rgba(0, 0, 0, 0.03)', 'rgba(0, 0, 0, .7)', 'rgba(0, 0, 0, .8)', 'rgba(0, 0, 0, .5)'),
+      theme('Dark', 'dark', 'src/renderer/assets/themes/dark.theme.css', '#282828', 'rgba(255, 255, 255, .7)', '#424344', 'rgba(255, 255, 255, .7)', 'rgba(255, 255, 255, .8)', 'rgba(255, 255, 255, .5)'),
+      theme('Royal Blue', 'royal-blue', 'src/renderer/assets/themes/royal-blue.theme.css', '#0f172a', '#f1f5f9', '#385b94', '#f1f5f9', 'rgba(241, 245, 249, .8)', 'rgba(241, 245, 249, .68)'),
+      theme('Graphite', 'graphite', 'src/renderer/assets/themes/graphite.theme.css', '#f7f7f7', 'rgba(43, 48, 50, .7)', 'rgba(104, 134, 170, .05)', 'rgba(43, 48, 50, .7)', 'rgba(43, 48, 50, .8)', 'rgba(43, 48, 50, .5)'),
+      theme('Home', 'home', 'src/renderer/assets/themes/home.theme.css', '#1a1c2c', '#f0f2f5', 'rgba(18, 17, 17, .25)', '#f0f2f5', 'rgba(240, 242, 245, .8)', 'rgba(240, 242, 245, .68)'),
+      theme('Material Dark', 'material-dark', 'src/renderer/assets/themes/material-dark.theme.css', '#34393f', 'rgba(171, 178, 191, .8)', '#3f454c', 'rgba(171, 178, 191, .8)', 'rgba(171, 178, 191, 1)', 'rgba(171, 178, 191, .9)'),
+      theme('Micron', 'micron', 'src/renderer/assets/themes/micron.theme.css', '#dbd1c2', '#2c3e50', 'rgba(112, 82, 62, .82)', '#fbeabc', 'rgba(69, 52, 28, .8)', 'rgba(217, 217, 216, .72)'),
+      theme('Micron Dark', 'micron-dark', 'src/renderer/assets/themes/micron-dark.theme.css', '#181614', '#f4e8d5', 'rgba(63, 44, 32, .92)', '#fbeabc', 'rgba(251, 234, 188, .84)', 'rgba(251, 234, 188, .72)'),
+      theme('One Dark', 'one-dark', 'src/renderer/assets/themes/one-dark.theme.css', '#282c34', '#9da5b4', '#3a3f4b', '#9da5b4', '#86a7e4', 'rgba(148, 185, 255, .73)'),
+      theme('Ulysses', 'ulysses', 'src/renderer/assets/themes/ulysses.theme.css', '#f3f3f3', 'rgba(101, 101, 101, .7)', 'rgba(187, 82, 12, .13)', 'rgba(0, 0, 0, .79)', 'rgb(12, 139, 186)', 'rgba(101, 101, 101, .85)'),
+      theme('SiteBrief', 'sitebrief', 'src/renderer/assets/themes/sitebrief.theme.css', '#f7f2ea', '#1f3348', 'rgba(255, 255, 255, .72)', '#1f3348', 'rgba(31, 51, 72, .8)', 'rgba(31, 51, 72, .66)')
+    ]
+
+    const controls = {
+      grid: document.getElementById('themeGrid'),
+      selectedName: document.getElementById('selectedName'),
+      colorPicker: document.getElementById('colorPicker'),
+      colorValue: document.getElementById('colorValue'),
+      redRange: document.getElementById('redRange'),
+      greenRange: document.getElementById('greenRange'),
+      blueRange: document.getElementById('blueRange'),
+      alphaRange: document.getElementById('alphaRange'),
+      redText: document.getElementById('redText'),
+      greenText: document.getElementById('greenText'),
+      blueText: document.getElementById('blueText'),
+      alphaText: document.getElementById('alphaText'),
+      cssOutput: document.getElementById('cssOutput'),
+      saveCssButton: document.getElementById('saveCssButton'),
+      saveAndCloseButton: document.getElementById('saveAndCloseButton'),
+      cancelButton: document.getElementById('cancelButton'),
+      copyCssButton: document.getElementById('copyCssButton'),
+      formatButton: document.getElementById('formatButton'),
+      cancelFormatButton: document.getElementById('cancelFormatButton'),
+      undoButton: document.getElementById('undoButton'),
+      redoButton: document.getElementById('redoButton'),
+      statusText: document.getElementById('statusText')
+    }
+
+    let themes = clone(initialThemes)
+    let selected = null
+    let formatSource = null
+    let isSyncing = false
+    let history = [snapshot()]
+    let historyIndex = 0
+
+    function theme (name, id, file, background, font, quotedBg, quotedFg, heading, quote) {
+      return {
+        name,
+        id,
+        file,
+        colors: [
+          { label: 'Background', variable: '--editorBgColor', value: background },
+          { label: 'Font color', variable: '--editorColor', value: font },
+          { label: 'Quoted cell background', variable: '--codeBlockBgColor', value: quotedBg },
+          { label: 'Quoted cell foreground', variable: 'td code color', value: quotedFg },
+          { label: 'Heading color', variable: '--editorColor80', value: heading },
+          { label: 'Blockquote foreground', variable: 'blockquote color', value: quote }
+        ]
+      }
+    }
+
+    function clone (value) {
+      return JSON.parse(JSON.stringify(value))
+    }
+
+    function snapshot () {
+      return JSON.stringify(themes)
+    }
+
+    function restoreSnapshot (value) {
+      themes = JSON.parse(value)
+      selected = null
+      formatSource = null
+      controls.selectedName.textContent = 'Select a box to edit a color.'
+      render()
+    }
+
+    function pushHistory () {
+      const current = snapshot()
+      if (history[historyIndex] === current) return
+      history = history.slice(0, historyIndex + 1)
+      history.push(current)
+      historyIndex = history.length - 1
+      updateHistoryButtons()
+    }
+
+    function updateHistoryButtons () {
+      controls.undoButton.disabled = historyIndex === 0
+      controls.redoButton.disabled = historyIndex === history.length - 1
+    }
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
+    const toHexPair = value => Number(value).toString(16).padStart(2, '0')
+    const rgbToHex = color => `#${toHexPair(color.r)}${toHexPair(color.g)}${toHexPair(color.b)}`
+
+    function alphaText (alpha) {
+      if (alpha >= 1) return '1'
+      const value = Number(alpha.toFixed(2))
+      return String(value).replace(/^0/, '')
+    }
+
+    function colorToCss (color) {
+      if (color.a >= 1) return rgbToHex(color)
+      return `rgba(${color.r}, ${color.g}, ${color.b}, ${alphaText(color.a)})`
+    }
+
+    function parseColor (value) {
+      const raw = value.trim()
+      const hex = raw.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)
+      if (hex) {
+        const body = hex[1].length === 3
+          ? hex[1].split('').map(char => char + char).join('')
+          : hex[1]
+        return {
+          r: parseInt(body.slice(0, 2), 16),
+          g: parseInt(body.slice(2, 4), 16),
+          b: parseInt(body.slice(4, 6), 16),
+          a: 1
+        }
+      }
+
+      const rgba = raw.match(/^rgba?\(\s*([.\d]+)\s*,\s*([.\d]+)\s*,\s*([.\d]+)(?:\s*,\s*([.\d]+))?\s*\)$/i)
+      if (rgba) {
+        return {
+          r: clamp(Math.round(Number(rgba[1])), 0, 255),
+          g: clamp(Math.round(Number(rgba[2])), 0, 255),
+          b: clamp(Math.round(Number(rgba[3])), 0, 255),
+          a: clamp(rgba[4] === undefined ? 1 : Number(rgba[4]), 0, 1)
+        }
+      }
+
+      return null
+    }
+
+    function contrastText (value) {
+      const color = parseColor(value) || { r: 255, g: 255, b: 255, a: 1 }
+      const blended = {
+        r: Math.round(color.r * color.a + 255 * (1 - color.a)),
+        g: Math.round(color.g * color.a + 255 * (1 - color.a)),
+        b: Math.round(color.b * color.a + 255 * (1 - color.a))
+      }
+      const luminance = (0.2126 * blended.r + 0.7152 * blended.g + 0.0722 * blended.b) / 255
+      return luminance > 0.55 ? '#111827' : '#ffffff'
+    }
+
+    function swatchBackground (value) {
+      return parseColor(value)
+        ? value
+        : 'repeating-linear-gradient(45deg, #d1d5db 0, #d1d5db 8px, #f9fafb 8px, #f9fafb 16px)'
+    }
+
+    function colorValue (theme, label) {
+      return theme.colors.find(color => color.label === label).value
+    }
+
+    function render () {
+      controls.grid.innerHTML = ''
+
+      themes.forEach((theme, themeIndex) => {
+        const panel = document.createElement('article')
+        panel.className = 'theme-panel'
+
+        const title = document.createElement('div')
+        title.className = 'theme-title'
+
+        const nameInput = document.createElement('input')
+        nameInput.type = 'text'
+        nameInput.value = theme.name
+        nameInput.setAttribute('aria-label', `${theme.id} display name`)
+        nameInput.addEventListener('change', event => {
+          theme.name = event.target.value.trim() || theme.id
+          pushHistory()
+          render()
+        })
+
+        const file = document.createElement('code')
+        file.textContent = theme.file
+        title.appendChild(nameInput)
+        title.appendChild(file)
+        panel.appendChild(title)
+
+        const grid = document.createElement('div')
+        grid.className = 'swatch-grid'
+
+        theme.colors.forEach((color, colorIndex) => {
+          const swatch = document.createElement('button')
+          swatch.type = 'button'
+          swatch.className = 'swatch'
+          if (selected && selected.themeIndex === themeIndex && selected.colorIndex === colorIndex) {
+            swatch.classList.add('active')
+          }
+          swatch.style.background = swatchBackground(color.value)
+          swatch.style.color = contrastText(color.value)
+          swatch.innerHTML = `
+            <span class="swatch-label">${color.label}</span>
+            <span>
+              <span class="swatch-var">${color.variable}</span><br>
+              <span class="swatch-value">${color.value}</span>
+            </span>
+          `
+          swatch.addEventListener('click', () => selectColor(themeIndex, colorIndex))
+          grid.appendChild(swatch)
+        })
+
+        panel.appendChild(grid)
+        panel.appendChild(example(theme))
+        controls.grid.appendChild(panel)
+      })
+
+      updateOutput()
+      updateHistoryButtons()
+      controls.cancelFormatButton.disabled = !formatSource
+    }
+
+    function example (theme) {
+      const wrap = document.createElement('div')
+      wrap.className = 'example'
+      wrap.style.background = colorValue(theme, 'Background')
+      wrap.style.color = colorValue(theme, 'Font color')
+      wrap.innerHTML = `
+        <h3 style="color: ${colorValue(theme, 'Heading color')}">Heading preview for ${theme.name}</h3>
+        <p>This sentence previews body text, <code style="background: ${colorValue(theme, 'Quoted cell background')}; color: ${colorValue(theme, 'Quoted cell foreground')}">quoted cell code</code>, and nearby inline content.</p>
+        <blockquote style="color: ${colorValue(theme, 'Blockquote foreground')}">Blockquote preview with the current foreground color.</blockquote>
+      `
+      return wrap
+    }
+
+    function selectColor (themeIndex, colorIndex) {
+      if (formatSource) {
+        const source = themes[formatSource.themeIndex].colors[formatSource.colorIndex]
+        themes[themeIndex].colors[colorIndex].value = source.value
+        formatSource = null
+        controls.statusText.textContent = 'Format pasted.'
+        pushHistory()
+      }
+
+      selected = { themeIndex, colorIndex }
+      const color = themes[themeIndex].colors[colorIndex]
+      controls.selectedName.textContent = `${themes[themeIndex].name} - ${color.label} (${color.variable})`
+      syncControlsFromValue(color.value)
+      render()
+    }
+
+    function syncControlsFromValue (value) {
+      const color = parseColor(value)
+      isSyncing = true
+      controls.colorValue.value = value
+      if (color) {
+        controls.colorPicker.value = rgbToHex(color)
+        controls.redRange.value = color.r
+        controls.greenRange.value = color.g
+        controls.blueRange.value = color.b
+        controls.alphaRange.value = Math.round(color.a * 100)
+        controls.redText.textContent = color.r
+        controls.greenText.textContent = color.g
+        controls.blueText.textContent = color.b
+        controls.alphaText.textContent = alphaText(color.a)
+      }
+      isSyncing = false
+    }
+
+    function updateSelectedValue (value, saveHistory = true) {
+      if (!selected) return
+      themes[selected.themeIndex].colors[selected.colorIndex].value = value
+      syncControlsFromValue(value)
+      if (saveHistory) pushHistory()
+      render()
+    }
+
+    function updateFromRanges () {
+      if (isSyncing || !selected) return
+      const color = {
+        r: Number(controls.redRange.value),
+        g: Number(controls.greenRange.value),
+        b: Number(controls.blueRange.value),
+        a: Number(controls.alphaRange.value) / 100
+      }
+      updateSelectedValue(colorToCss(color))
+    }
+
+    function cssForTheme (theme) {
+      const variables = new Map()
+      let blockquote = null
+      let tableCodeColor = null
+
+      theme.colors.forEach(color => {
+        if (color.variable === 'blockquote color') {
+          blockquote = color.value
+        } else if (color.variable === 'td code color') {
+          tableCodeColor = color.value
+          variables.set('--quotedCellColor', color.value)
+        } else {
+          variables.set(color.variable, color.value)
+        }
+      })
+
+      const themeSelector = `html[data-marktext-theme="${theme.id}"]`
+      const lines = [
+        `/* ${theme.name} (${theme.id}): runtime overrides for ${theme.file} */`,
+        `${themeSelector} {`
+      ]
+
+      variables.forEach((value, variable) => {
+        lines.push(`  ${variable}: ${value};`)
+      })
+
+      lines.push('}')
+
+      if (blockquote) {
+        lines.push('', `${themeSelector} blockquote {`, `  color: ${blockquote};`, '}')
+      }
+
+      if (tableCodeColor) {
+        lines.push('', `${themeSelector} table code,`, `${themeSelector} table code *,`, `${themeSelector} table .ag-inline-rule,`, `${themeSelector} table .ag-inline-rule *,`, `${themeSelector} table .ag-cell-content code,`, `${themeSelector} table .ag-cell-content code *,`, `${themeSelector} span code,`, `${themeSelector} span code *,`, `${themeSelector} td code,`, `${themeSelector} td code *,`, `${themeSelector} th code,`, `${themeSelector} th code *,`, `${themeSelector} :not(pre) > code[class*="language-"],`, `${themeSelector} pre:not(.CodeMirror-line),`, `${themeSelector} pre[class*="language-"],`, `${themeSelector} pre.ag-paragraph,`, `${themeSelector} pre.ag-paragraph * {`, '  color: var(--quotedCellColor) !important;', '}')
+      }
+
+      return lines.join('\n')
+    }
+
+    function updateOutput () {
+      controls.cssOutput.value = themes.map(cssForTheme).join('\n\n')
+    }
+
+    async function saveCss () {
+      const content = controls.cssOutput.value + '\n'
+
+      if (typeof require === 'function') {
+        try {
+          const fs = require('fs')
+          const path = require('path')
+          const { ipcRenderer } = require('electron')
+          const params = new URLSearchParams(window.location.search)
+          const userDataPath = params.get('udp')
+          if (userDataPath) {
+            const target = path.join(userDataPath, 'theme-color-overrides.css')
+            fs.writeFileSync(target, content, 'utf8')
+            controls.statusText.textContent = `Saved runtime overrides to ${target}`
+            if (ipcRenderer) {
+              ipcRenderer.send('mt::theme-overrides-updated')
+            }
+            return
+          }
+        } catch (err) {
+          controls.statusText.textContent = `Direct save failed: ${err.message}`
+        }
+      }
+
+      const blob = new Blob([content], { type: 'text/css;charset=utf-8' })
+
+      if ('showSaveFilePicker' in window) {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: 'theme-color-overrides.css',
+          types: [
+            {
+              description: 'CSS file',
+              accept: { 'text/css': ['.css'] }
+            }
+          ]
+        })
+        const writable = await handle.createWritable()
+        await writable.write(blob)
+        await writable.close()
+        controls.statusText.textContent = 'Saved CSS overrides.'
+        return
+      }
+
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'theme-color-overrides.css'
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      URL.revokeObjectURL(url)
+      controls.statusText.textContent = 'Downloaded CSS overrides.'
+    }
+
+    async function saveAndClose () {
+      await saveCss()
+      window.close()
+    }
+
+    function cancelEditor () {
+      window.close()
+    }
+
+    controls.colorPicker.addEventListener('input', event => {
+      if (isSyncing || !selected) return
+      const color = parseColor(event.target.value)
+      const current = parseColor(themes[selected.themeIndex].colors[selected.colorIndex].value)
+      color.a = current ? current.a : 1
+      updateSelectedValue(colorToCss(color))
+    })
+
+    controls.colorValue.addEventListener('change', event => {
+      if (!selected) return
+      const color = parseColor(event.target.value)
+      if (!color) {
+        syncControlsFromValue(themes[selected.themeIndex].colors[selected.colorIndex].value)
+        return
+      }
+      updateSelectedValue(colorToCss(color))
+    })
+
+    controls.redRange.addEventListener('input', updateFromRanges)
+    controls.greenRange.addEventListener('input', updateFromRanges)
+    controls.blueRange.addEventListener('input', updateFromRanges)
+    controls.alphaRange.addEventListener('input', updateFromRanges)
+    controls.saveCssButton.addEventListener('click', saveCss)
+    controls.saveAndCloseButton.addEventListener('click', saveAndClose)
+    controls.cancelButton.addEventListener('click', cancelEditor)
+    controls.copyCssButton.addEventListener('click', () => navigator.clipboard.writeText(controls.cssOutput.value))
+    controls.formatButton.addEventListener('click', () => {
+      if (!selected) return
+      formatSource = { ...selected }
+      controls.statusText.textContent = 'Format copied. Click another color box to paste it.'
+      render()
+    })
+    controls.cancelFormatButton.addEventListener('click', () => {
+      formatSource = null
+      controls.statusText.textContent = 'Format copy cancelled.'
+      render()
+    })
+    controls.undoButton.addEventListener('click', () => {
+      if (historyIndex === 0) return
+      historyIndex -= 1
+      restoreSnapshot(history[historyIndex])
+    })
+    controls.redoButton.addEventListener('click', () => {
+      if (historyIndex === history.length - 1) return
+      historyIndex += 1
+      restoreSnapshot(history[historyIndex])
+    })
+
+    render()
+    selectColor(0, 0)
+  </script>
+</body>
+</html>

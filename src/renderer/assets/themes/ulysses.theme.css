@@ -24,7 +24,7 @@
   --deleteColor: #ff6969;
   --iconColor: rgba(101, 101, 101, .8);
   --codeBgColor: #d8d8d869;
-  --codeBlockBgColor: rgba(12, 139, 186, .05);
+  --codeBlockBgColor: rgba(187, 82, 12, .13);
   --footnoteBgColor: rgba(0, 0, 0, .03);
   --inputBgColor: rgba(0, 0, 0, .06);
   --focusColor: var(--themeColor);
@@ -105,6 +105,23 @@ li.ag-bullet-list-item::before {
 blockquote.ag-paragraph {
   background: rgb(233, 233, 233);
 }
+
+blockquote {
+  color: rgba(101, 101, 101, .85);
+}
+
+table code,
+table code *,
+table .ag-inline-rule,
+table .ag-inline-rule *,
+table .ag-cell-content code,
+table .ag-cell-content code *,
+td code,
+td code *,
+th code {
+  color: rgba(0, 0, 0, .79) !important;
+}
+
 blockquote.ag-paragraph::before {
   content: none;
 }

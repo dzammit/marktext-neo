@@ -32,13 +32,11 @@ class SettingWindow extends BaseWindow {
     // setting a fixed window size.
     winOptions.resizable = true
 
-    // Enable native or custom/frameless window and titlebar
-    const { titleBarStyle, theme } = preferences.getAll()
+    // Use the custom frameless titlebar so menus can be themed with CSS.
+    const { theme } = preferences.getAll()
     if (!isOsx) {
       winOptions.titleBarStyle = 'default'
-      if (titleBarStyle === 'native') {
-        winOptions.frame = true
-      }
+      winOptions.frame = false
     }
 
     winOptions.backgroundColor = this._getPreferredBackgroundColor(theme)

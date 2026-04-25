@@ -54,7 +54,6 @@ class EditorWindow extends BaseWindow {
     }
 
     const {
-      titleBarStyle,
       theme,
       sideBarVisibility,
       tabBarVisibility,
@@ -63,12 +62,10 @@ class EditorWindow extends BaseWindow {
       spellcheckerLanguage
     } = preferences.getAll()
 
-    // Enable native or custom/frameless window and titlebar
+    // Use the custom frameless titlebar so menus can be themed with CSS.
     if (!isOsx) {
       winOptions.titleBarStyle = 'default'
-      if (titleBarStyle === 'native') {
-        winOptions.frame = true
-      }
+      winOptions.frame = false
     }
 
     winOptions.backgroundColor = this._getPreferredBackgroundColor(theme)
